@@ -1,32 +1,23 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import academy.kata.TipService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 public class TipServiceTest {
 
-    @Spy
-    private TipService tipService;
+    private TipService tipService = new TipService();
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-    @ParameterizedTest
+    @ParameterizedTest(name = "{index}: For a sum of {0}, a discount of 5 per cent")
     @MethodSource("argsProviderFactoryForFivePerCent")
     public void shouldBeFivePerCent(BigDecimal amount) {
         assertEquals(amount.multiply(BigDecimal.valueOf(1.05)), tipService.roundTips(amount));
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{index}: For a sum of {0}, a discount of 10 per cent")
     @MethodSource("argsProviderFactoryForTenPerCent")
     public void shouldBeTenPerCent(BigDecimal amount) {
         assertEquals(amount.multiply(BigDecimal.valueOf(1.1)), tipService.roundTips(amount));
